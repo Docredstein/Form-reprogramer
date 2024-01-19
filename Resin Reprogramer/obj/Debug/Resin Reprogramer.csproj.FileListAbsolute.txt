@@ -1,0 +1,10 @@
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\bin\Debug\Resin Reprogramer.exe.config
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\bin\Debug\Resin Reprogramer.exe
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\bin\Debug\Resin Reprogramer.pdb
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin Reprogramer.csproj.AssemblyReference.cache
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin_Reprogramer.Form1.resources
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin_Reprogramer.Properties.Resources.resources
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin Reprogramer.csproj.GenerateResource.cache
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin Reprogramer.csproj.CoreCompileInputs.cache
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin Reprogramer.exe
+D:\cours\X 1A\stage\resin refill\Resin Reprogramer\obj\Debug\Resin Reprogramer.pdb
