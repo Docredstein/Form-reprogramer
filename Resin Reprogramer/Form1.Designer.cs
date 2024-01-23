@@ -165,6 +165,7 @@ namespace Resin_Reprogramer
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(220, 19);
             this.label4.TabIndex = 4;
+            this.label4.Text = "Test";
             this.label4.Click += new System.EventHandler(this.label1_Click);
             // 
             // label5

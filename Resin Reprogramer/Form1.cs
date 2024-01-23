@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO.Ports;
+using System.Windows.Forms;
 namespace Resin_Reprogramer
 {
 
@@ -20,7 +13,7 @@ namespace Resin_Reprogramer
             string[] Ports = SerialPort.GetPortNames();
             comboBox1.Items.Clear();
             comboBox1.Items.AddRange(Ports);
-            
+
         }
         public Form1()
         {
@@ -48,7 +41,7 @@ namespace Resin_Reprogramer
         {
             pictureBox1.Visible = false;
             pictureBox2.Visible = false;
-            byte[] buffer = { 0 };
+            byte[] buffer = new byte[1024];
             if (!serialPort1.IsOpen)
             {
                 button2.Focus();
@@ -57,16 +50,26 @@ namespace Resin_Reprogramer
             }
             progressBar1.Visible = true;
 
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)  {
-                label1.Text = saveFileDialog1.FileName;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                label1.Text = "A";//saveFileDialog1.FileName;
+
+                label1.Refresh();
                 var file = saveFileDialog1.OpenFile();
                 char[] command = { 'r' };
-                serialPort1.Write(command,0,1);
+                serialPort1.Write(command, 0, 1);
                 System.Threading.Thread.Sleep(50);
-                serialPort1.Read(buffer, 0, 1024);
+                for (int i = 0; i < 8; i++)
+                {
+                    serialPort1.Read(buffer, 128 * i, 128);
+                    progressBar1.Value = (i + 1) * 10;
+                }
                 file.Write(buffer, 0, 1024);
+                progressBar1.Value = 100;
                 file.Close();
                 pictureBox1.Visible = true;
+
+                progressBar1.Visible = false;
             }
 
         }
@@ -81,7 +84,7 @@ namespace Resin_Reprogramer
                 errorProvider1.SetError(ActiveControl, "Port série non connecté");
                 return;
             }
-            
+
             progressBar1.Visible = true;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -98,7 +101,7 @@ namespace Resin_Reprogramer
                 System.Threading.Thread.Sleep(50);
                 progressBar1.Value = 50;
                 serialPort1.Write(buffer, 0, 1024);
-                byte[] Check = { 0};
+                byte[] Check = { 0 };
                 char[] commandCheck = { 'r' };
                 progressBar1.Value = 70;
                 serialPort1.Write(commandCheck, 0, 1);
@@ -107,7 +110,7 @@ namespace Resin_Reprogramer
                 serialPort1.Read(Check, 0, 1024);
                 progressBar1.Value = 100;
                 bool same = true;
-                for (int i = 0; i<1024;i++)
+                for (int i = 0; i < 1024; i++)
                 {
                     same = same && Check[i] == buffer[i];
                 }
@@ -150,7 +153,7 @@ namespace Resin_Reprogramer
                 button2.Text = "Ouvrir";
             }
         }
-        
+
 
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -168,5 +171,5 @@ namespace Resin_Reprogramer
 
         }
     }
-    
+
 }
