@@ -58,18 +58,22 @@ namespace Resin_Reprogramer
                 var file = saveFileDialog1.OpenFile();
                 char[] command = { 'r' };
                 serialPort1.Write(command, 0, 1);
-                System.Threading.Thread.Sleep(50);
-                for (int i = 0; i < 8; i++)
+                serialPort1.Read(buffer, 0, 1);
+                System.Threading.Thread.Sleep(200);
+                serialPort1.Read(buffer, 1, 127);
+                for (int i = 1; i < 8; i++)
                 {
+                    System.Threading.Thread.Sleep(200);
                     serialPort1.Read(buffer, 128 * i, 128);
                     progressBar1.Value = (i + 1) * 10;
                 }
                 file.Write(buffer, 0, 1024);
                 progressBar1.Value = 100;
                 file.Close();
+                
                 pictureBox1.Visible = true;
 
-                progressBar1.Visible = false;
+                //progressBar1.Visible = false;
             }
 
         }
@@ -91,7 +95,7 @@ namespace Resin_Reprogramer
             {
                 label2.Text = openFileDialog1.FileName;
                 var file = openFileDialog1.OpenFile();
-                byte[] buffer = { 0 };
+                byte[] buffer = new byte[1024];
                 progressBar1.Value = 10;
                 file.Read(buffer, 0, 1024);
                 file.Close();
@@ -101,13 +105,23 @@ namespace Resin_Reprogramer
                 System.Threading.Thread.Sleep(50);
                 progressBar1.Value = 50;
                 serialPort1.Write(buffer, 0, 1024);
-                byte[] Check = { 0 };
+
+                byte[] Check = new byte[1024];
                 char[] commandCheck = { 'r' };
+                serialPort1.Read(Check, 0, 1);
                 progressBar1.Value = 70;
                 serialPort1.Write(commandCheck, 0, 1);
                 System.Threading.Thread.Sleep(50);
                 progressBar1.Value = 90;
-                serialPort1.Read(Check, 0, 1024);
+                serialPort1.Read(Check, 0, 1);
+                System.Threading.Thread.Sleep(200);
+                serialPort1.Read(Check, 1, 127);
+                for (int i = 1; i < 8; i++)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    serialPort1.Read(Check, 128 * i, 128);
+                    progressBar1.Value = (i + 1) +90;
+                }
                 progressBar1.Value = 100;
                 bool same = true;
                 for (int i = 0; i < 1024; i++)
@@ -140,6 +154,8 @@ namespace Resin_Reprogramer
             errorProvider1.Clear();
             if (!ComSelected)
             {
+                comboBox1.Focus();
+                errorProvider1.SetError(ActiveControl,"Veuillez sélectionner un port série");
                 return;
             }
             if (!serialPort1.IsOpen)
